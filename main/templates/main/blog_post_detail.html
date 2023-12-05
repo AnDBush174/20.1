@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <img src="{{ post.preview.url }}" alt="Preview">
+    <p>{{ post.content }}</p>
+    <p>Дата публикации: {{ post.created_at }}</p>
+    <p>Просмотры: {{ post.views_count }}</p>
+    <!-- Дополнительные действия, такие как редактирование или удаление -->
+</body>
+</html>

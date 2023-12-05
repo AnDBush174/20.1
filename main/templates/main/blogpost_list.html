@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Блог</title>
+</head>
+<body>
+    <h1>Блог</h1>
+
+    {% for post in posts %}
+    <div class="post">
+        <h2><a href="{% url 'main:post_detail' post.id %}">{{ post.title }}</a></h2>
+        <p>{{ post.content|slice:":200" }}...</p>
+        <p>Опубликовано: {{ post.created_at }}</p>
+        <p>Просмотров: {{ post.view_count }}</p>
+    </div>
+    {% empty %}
+    <p>Пока здесь нет записей в блоге.</p>
+    {% endfor %}
+
+    <hr>
+    <p><a href="{% url 'main:post_create' %}">Создать новый пост</a></p>
+
+</body>
+</html>

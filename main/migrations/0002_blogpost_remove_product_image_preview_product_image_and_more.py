@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='product',
-            name='image',
+            name='images',
             field=models.ImageField(default='default.png', upload_to='products/'),
         ),
         migrations.AlterField(
