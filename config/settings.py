@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
     'main',
 ]
 
@@ -72,6 +71,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 587  # 465 для SSL или 587 для TLS в зависимости от используемого протокола безопасности
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')  # замените на свой адрес электронной почты
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')  # замените на свой пароль от адреса
+EMAIL_USE_TLS = True  # Или False, если используете порт 465 и EMAIL_USE_SSL = True
+EMAIL_USE_SSL = False  # Или True, если используете порт 465
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -86,7 +92,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -106,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -120,7 +124,6 @@ USE_TZ = True
 
 USE_L10N = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -131,6 +134,8 @@ STATICFILES_DIRS = (
     # если они располагаются вне приложений
     BASE_DIR / 'static',
 )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -16,6 +16,7 @@ urlpatterns = [
 
     # Страница контактов
     path('contacts/', views.ContactsView.as_view(), name='contacts'),
+    path('contacts/', views.contact_view, name='contacts'),
 
     # Страница детального представления продукта
     # product_id передается в качестве аргумента
@@ -25,5 +26,9 @@ urlpatterns = [
     path('blog/<slug:slug>/', BlogPostDetailView.as_view(), name='post_detail'),
     path('blog/', views.BlogPostListView.as_view(), name='post_list'),
     path('blog/', BlogPostListView.as_view(), name='blogpost_list'),
+    path('create/', views.create_product, name='create_product'),
+    path('list/', views.product_list, name='product_list'),
+    path('update/<int:pk>/', views.update_product, name='update_product'),
+    path('delete/<int:pk>/', views.delete_product, name='delete_product'),
 
 ]

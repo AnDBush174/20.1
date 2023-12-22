@@ -1,3 +1,36 @@
+<!-- create_product.html -->
+<h2>Create Product</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create</button>
+</form>
+
+<!-- product_list.html -->
+<h2>Product List</h2>
+<ul>
+  {% for product in products %}
+    <li>{{ product.name }}</li>
+  {% endfor %}
+</ul>
+
+<!-- update_product.html -->
+<h2>Update Product</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Update</button>
+</form>
+
+<!-- delete_product.html -->
+<h2>Delete Product</h2>
+<p>Are you sure you want to delete "{{ product.name }}"?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+</form>
+
+
 <h1>{{ product.name }}</h1>
 <p>{{ product.description }}</p>
 <img src="{{ product.image.url }}" alt="Product Image">
@@ -5,3 +38,4 @@
 <p>Price: {{ product.price }}</p>
 <p>Created: {{ product.created }}</p>
 <p>Last Updated: {{ product.last_updated }}</p>
+

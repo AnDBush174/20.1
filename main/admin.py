@@ -1,5 +1,7 @@
 # admin.py
 from django.contrib import admin
+from django.core.mail import send_mail
+
 from .models import Category, Product, Contacts
 
 
@@ -15,6 +17,18 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
 
 
+@admin.action(description='Send email to selected contacts')
+def send_email_to_contacts(modeladmin, request, queryset):
+    for contact in queryset:
+        subject = 'Greetings from Django'
+        message = f'Hello, {contact.name}. This is a test email.'
+        from_email = 'from@example.com'
+        recipient_list = ['thestudybox@mail.ru']
+        send_mail(subject, message, from_email, recipient_list)
+    modeladmin.message_user(request, 'Email sent successfully.')
+
+
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'country', 'inn', 'address')
+    list_display = ('pk', '__str__', 'country', 'inn', 'address')
+    actions = [send_email_to_contacts]

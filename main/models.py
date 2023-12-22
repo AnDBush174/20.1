@@ -4,7 +4,6 @@ from datetime import datetime
 from django.utils.text import slugify
 
 
-# Модель Категории
 class Category(models.Model):
     # Название категории
     name = models.CharField(max_length=100, verbose_name='наименование')
@@ -15,12 +14,10 @@ class Category(models.Model):
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
 
-    # Возвращается строковое представление модели
     def __str__(self):
         return self.name
 
 
-# Модель Продукта
 class Product(models.Model):
     # Название продукта
     name = models.CharField(max_length=100, verbose_name='наименование')
@@ -45,30 +42,34 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
 
-    # Возвращается строковое представление модели
     def __str__(self):
         return f'{self.name} ({self.category})'
 
 
-# Модель Контактов
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    version_number = models.IntegerField()
+    version_name = models.CharField(max_length=100)
+    is_current_version = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.product} - Версия  {self.version_number}"
+
+
 class Contacts(models.Model):
-    # Страна контакта
+    name = models.CharField(max_length=50, verbose_name='имя контакта', default='')
     country = models.CharField(max_length=50, verbose_name='страна')
-    # ИНН контакта
     inn = models.CharField(max_length=15, verbose_name='ИНН')
-    # Адрес контакта
     address = models.CharField(max_length=100, verbose_name='адрес')
 
     class Meta:
         verbose_name = 'контакт'
         verbose_name_plural = 'контакты'
 
-    # Возвращается строковое представление модели
     def __str__(self):
-        return self.inn
+        return self.name
 
 
-# Модель Поста блога
 class BlogPost(models.Model):
     # Заголовок поста
     title = models.CharField(max_length=255, primary_key=True)
@@ -85,16 +86,13 @@ class BlogPost(models.Model):
     # Кол-во просмотров поста
     views_count = models.IntegerField(default=0)
 
-    # При сохранении поста, генерируем слаг если пост новый
     def save(self, *args, **kwargs):
-        if not self.title:  # Если создается новый объект, то слаг еще не сгенерирован
+        if not self.slug:
             self.slug = slugify(self.title)
         super(BlogPost, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_at']
 
-    # Возвращается строковое представление модели
     def __str__(self):
         return self.title
-
