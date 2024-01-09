@@ -1,4 +1,4 @@
-# forms.py
+# main/forms.py
 from django import forms
 from .models import BlogPost, Product
 from django.core.exceptions import ValidationError
@@ -24,20 +24,19 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
+    FORBIDDEN_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
+                       'радар']
+
     def clean_name(self):
         name = self.cleaned_data.get('name')
-        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
-                           'радар']
-        for word in forbidden_words:
+        for word in self.FORBIDDEN_WORDS:
             if word in name:
                 raise ValidationError('Недопустимое слово в названии продукта')
         return name
 
     def clean_description(self):
         description = self.cleaned_data.get('description')
-        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
-                           'радар']
-        for word in forbidden_words:
+        for word in self.FORBIDDEN_WORDS:
             if word in description:
                 raise ValidationError('Недопустимое слово в описании продукта')
         return description
