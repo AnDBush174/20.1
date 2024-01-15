@@ -1,4 +1,4 @@
-# models.py
+# main/models.py
 from django.db import models
 from datetime import datetime
 from django.utils.text import slugify

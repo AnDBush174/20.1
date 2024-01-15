@@ -1,8 +1,9 @@
+# user_app/urls.py
 from django.urls import path
-from .views import register, user_login, dashboard
+from .views import RegisterView, UserLoginView, DashboardView
 
 urlpatterns = [
-    path('register/', register, name='register'),  # URL для регистрации пользователя
-    path('login/', user_login, name='login'),  # URL для входа пользователя
-    path('dashboard/', dashboard, name='dashboard'),  # Защищенный URL для просмотра информации пользователя
+    path('register/', RegisterView, name='register'),  # URL для регистрации пользователя
+    path('login/', UserLoginView, name='login'),  # URL для входа пользователя
+    path('dashboard/', DashboardView, name='dashboard'),  # Защищенный URL для просмотра информации пользователя
 ]
