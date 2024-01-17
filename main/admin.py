@@ -1,8 +1,11 @@
 # main/admin.py
 from django.contrib import admin
 from django.core.mail import send_mail
-
 from .models import Category, Product, Contacts
+from django.contrib.auth.models import Group, Permission
+
+admin.site.unregister(Group)  # Удаляем стандартную группу
+admin.site.register(Group)  # Заменяем на свою
 
 
 @admin.register(Category)

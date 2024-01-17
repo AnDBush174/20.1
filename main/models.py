@@ -2,6 +2,19 @@
 from django.db import models
 from datetime import datetime
 from django.utils.text import slugify
+from django.contrib.auth.models import Group, Permission
+
+
+# Создаем группу модераторов
+moderator_group, created = Group.objects.get_or_create(name='модератор')
+
+# Находим необходимые разрешения
+product_permissions = Permission.objects.filter(codename__in=['change_product', 'delete_product'])
+
+# Добавляем разрешения в группу модераторов
+for perm in product_permissions:
+    moderator_group.permissions.add(perm)
+
 
 
 class Category(models.Model):
