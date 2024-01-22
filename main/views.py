@@ -1,6 +1,7 @@
 # main/views.py
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Product, Version, BlogPost
@@ -89,6 +90,13 @@ class ContactsView(TemplateView):
     template_name = 'main/contacts.html'
 
 
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product_update.html'
+    success_url = reverse_lazy('product_list')
+
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
@@ -157,3 +165,11 @@ def send_test_email(request):
         fail_silently=False,
     )
     return HttpResponse('Test email sent.')
+
+
+@cache_page(60 * 15)  # Кеширование на 15 минут
+def product_detail(request, product_id):
+    product = Product.objects.get(pk=product_id)  # Получение объекта продукта по его идентификатору
+    # Дополнительная логика для получения дополнительных данных о продукте, например, его версий, отзывов и т.д.
+
+    return render(request, 'product_detail.html', {'product': product})

@@ -19,7 +19,16 @@ def create_groups(sender, **kwargs):
     moderator_group, created = Group.objects.get_or_create(name='модератор')
 
     # Получаем разрешения для модели Product
-    product_permissions = Permission.objects.filter(content_type__app_label='main', codename__in=['change_product', 'delete_product'])
+    product_permissions = Permission.objects.filter(content_type__app_label='main',
+                                                    codename__in=['change_product', 'delete_product'])
 
     # Назначаем разрешения группе модераторов
     moderator_group.permissions.add(*product_permissions)
+
+
+class MainConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'main'
+
+    def ready(self):
+        import main.signals  # Подключение файла signals.py

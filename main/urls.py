@@ -2,7 +2,7 @@
 from django.urls import path
 from . import views
 from .views import BlogPostCreateView, BlogPostDetailView, BlogPostListView, CreateProductView, UpdateProductView, \
-    DeleteProductView, ContactView
+    DeleteProductView, ContactView, product_detail
 from user_app.views import DashboardView, UserLoginView, RegisterView
 
 # Определение маршрутов для приложения 'main'
@@ -35,5 +35,5 @@ urlpatterns = [
     path('list/', views.product_list, name='product_list'),
     path('update/<int:pk>/', UpdateProductView.as_view(), name='update_product'),
     path('delete/<int:pk>/', DeleteProductView.as_view(), name='delete_product'),
-
+path('product/<int:product_id>/', product_detail, name='product_detail'),
 ]
